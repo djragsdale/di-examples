@@ -1,0 +1,12 @@
+{
+  "name": "@djragsdale/di-examples",
+  "version": "0.1.0",
+  "description": "Examples of Dependency Injection in ES5 JS code",
+  "main": "lib/index.js",
+  "scripts": {
+    "start": "node bin/my-program.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT"
+}

@@ -1,0 +1,1 @@
+const package = require('../lib');
