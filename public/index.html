@@ -1,6 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head></head>
+  <head>
+    <title>DI & IOC in JS</title>
+    <script src="assets/js/angularJs/angularJsInjector.js"></script>
+    <script src="assets/js/common/Logger.js"></script>
+    <script src="assets/js/common/util.js"></script>
+    <script src="assets/js/setterPrototype/createInjector.js"></script>
+    <script src="assets/js/spring/JsonApplicationContext.js"></script>
+    <script src="assets/js/symfony/ContainerBuilder.js"></script>
+    <script src="assets/js/symfony/ContainerReference.js"></script>
+    <script src="assets/js/symfony/SymfonyContainer.js"></script>
+    <style>
+      main {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      button {
+
+      }
+
+      pre {
+        background: gray;
+        color: white;
+
+        padding: 16px;
+      }
+
+      pre.example {
+
+      }
+
+      pre.log {
+        
+      }
+    </style>
+  </head>
   <body>
     <main>
       <h1>Dependency Injection and Inversion of Control in client JavaScript</h1>
@@ -8,21 +44,75 @@
         <h2>Spring</h2>
         <p></p>
         <script>
-          function runSpring() {
-
+          function SpringClass(logger) {
+            this.logger = logger;
+            // Some non-Singleton property setters can be defined by the instance
+            this.logger.setNamespace('SpringClass');
           }
-        </script>
-        <pre>
-          <code>
-            Put a code example here matching the preceding function
-          </code>
-        </pre>
-        <button onclick="runSpring()"></button>
-        <pre>
-          <code id="springLog">
+          SpringClass.prototype.doLogging = function doLogging() {
+            this.logger.log('Logging from a Spring IOC container!');
+          };
 
+          var notQuiteABean = {
+            springClass: {
+              proto: SpringClass,
+              constructorArgs: [
+                {
+                  ref: 'exampleLogger'
+                }
+              ]
+            },
+            exampleLogger: {
+              proto: ExampleLogger,
+              properties: [
+                {
+                  name: 'id',
+                  value: 'springLog'
+                }
+              ]
+            }
+          };
+          var springContext = new JsonApplicationContext(notQuiteABean);
+
+          springClass = springContext.getBean('springClass');
+        </script>
+        <pre class="example">
+          <code>
+            function SpringClass(logger) {
+              this.logger = logger;
+            }
+            SpringClass.prototype.doLogging = function doLogging() {
+              this.logger.log('Logging from a Spring IOC container!');
+              // Some non-Singleton property setters can be defined by the instance
+              this.logger.setNamespace('SpringClass');
+            };
+
+            var notQuiteABean = {
+              springClass: {
+                proto: SpringClass,
+                constructorArgs: [
+                  {
+                    ref: 'exampleLogger'
+                  }
+                ]
+              },
+              exampleLogger: {
+                proto: ExampleLogger,
+                properties: [
+                  {
+                    name: 'id',
+                    value: 'springLog'
+                  }
+                ]
+              }
+            };
+            var springContext = new JsonApplicationContext(notQuiteABean);
+
+            springClass = springContext.getBean('springClass');
           </code>
         </pre>
+        <button onclick="springClass.doLogging()">Run Example</button>
+        <pre class="log"><code id="springLog"></code></pre>
       </section>
     </main>
   </body>
