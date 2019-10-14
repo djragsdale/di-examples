@@ -42,7 +42,11 @@
       <h1>Dependency Injection and Inversion of Control in client JavaScript</h1>
       <section>
         <h2>Spring</h2>
-        <p></p>
+        <p>Using beans is a common practice in Java programming. Developers with a Spring
+          background might prefer this type of central configuration of dependencies. Also included
+          in this configuration is an example of the Liskov Substitution principle. SpringGlass was
+          written with Logger in mind but we substituted it with a subtype of Logger, Example Logger,
+          which logs to the DOM as well as to console.</p>
         <script>
           function SpringClass(logger) {
             this.logger = logger;
