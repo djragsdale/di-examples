@@ -50,11 +50,107 @@
           languages can be adapted to JS.
         </p>
       </section>
-      <section>
+      <div class="toc">
+        <ol>
+          <li><a href="#closure">Closure</a></li>
+          <li><a href="#setter-prototype">Setter Prototype</a></li>
+          <li><a href="#angularjs">AngularJS</a></li>
+          <li><a href="#symfony">Symfony</a></li>
+          <li><a href="#spring">Spring</a></li>
+        </ol>
+      </div>
+      <section id="closure">
+        <h2>Closure</h2>
+        <p></p>
+        <script></script>
+        <pre class="example"><code></code></pre>
+        <button onclick="springClass.doLogging()">Run Example</button>
+        <pre class="log"><code id="springLog"></code></pre>
+      </section>
+      <section id="setter-prototype">
+        <h2>Setter Prototype</h2>
+        <p></p>
+        <script></script>
+        <pre class="example"><code></code></pre>
+        <button onclick="springClass.doLogging()">Run Example</button>
+        <pre class="log"><code id="springLog"></code></pre>
+      </section>
+      <section id="angularjs">
+        <h2>AngularJS</h2>
+        <p></p>
+        <script></script>
+        <pre class="example"><code></code></pre>
+        <button onclick="springClass.doLogging()">Run Example</button>
+        <pre class="log"><code id="springLog"></code></pre>
+      </section>
+      <section id="symfony">
+        <h2>Symfony</h2>
+        <p>Symfony is a popular Object-Oriented framework for writing applications in PHP. Many
+          front-end developers were introduced to back-end development through PHP, and many PHP
+          frameworks are based on Symfony and its respective IOC containers. This example does not
+          create an application context which stores the containers.</p>
+        <script>
+          function SymfonyClass(logger) {
+            this.logger = logger;
+          }
+          SymfonyClass.prototype.doLogging = function doLogging() {
+            this.logger.log('Logging from a symfony IOC container!');
+          };
+
+          var containerBuilder = new ContainerBuilder({
+            ExampleLogger: ExampleLogger,
+            SymfonyClass: SymfonyClass
+          });
+
+          containerBuilder.setParameter('logger.namespace', 'SymfonyIOC');
+          containerBuilder
+            .register('logger', 'ExampleLogger')
+            .addArgument('%logger.namespace%')
+            .addArgument('symfonyLog');
+
+          containerBuilder
+            .register('symfonyClass', 'SymfonyClass')
+            .addArgument(new ContainerReference('logger'));
+
+          // Lazy instantiated containers only get injected when .get() is called
+          // This makes everything a Singleton, but could be adjusted to get classes themselves
+          // It would be recommended to get the container instances at app bootstrapping only
+          var symfonyClass = containerBuilder.get('symfonyClass');
+        </script>
+        <pre class="example"><code>function SymfonyClass(logger) {
+  this.logger = logger;
+}
+SymfonyClass.prototype.doLogging = function doLogging() {
+  this.logger.log('Logging from a symfony IOC container!');
+};
+
+var containerBuilder = new ContainerBuilder({
+  ExampleLogger: ExampleLogger,
+  SymfonyClass: SymfonyClass
+});
+
+containerBuilder.setParameter('logger.namespace', 'SymfonyIOC');
+containerBuilder
+  .register('logger', 'ExampleLogger')
+  .addArgument('%logger.namespace%')
+  .addArgument('symfonyLog');
+
+containerBuilder
+  .register('symfonyClass', 'SymfonyClass')
+  .addArgument(new ContainerReference('logger'));
+
+// Lazy instantiated containers only get injected when .get() is called
+// This makes everything a Singleton, but could be adjusted to get classes themselves
+// It would be recommended to get the container instances at app bootstrapping only
+var symfonyClass = containerBuilder.get('symfonyClass');</code></pre>
+        <button onclick="symfonyClass.doLogging();">Run Example</button>
+        <pre class="log"><code id="symfonyLog"></code></pre>
+      </section>
+      <section id="spring">
         <h2>Spring</h2>
         <p>Using beans is a common practice in Java programming. Developers with a Spring
           background might prefer this type of central configuration of dependencies. Also included
-          in this configuration is an example of the Liskov Substitution principle. SpringGlass was
+          in this configuration is an example of the Liskov Substitution principle. SpringClass was
           written with Logger in mind but we substituted it with a subtype of Logger, Example Logger,
           which logs to the DOM as well as to console.</p>
         <script>
@@ -90,41 +186,37 @@
 
           springClass = springContext.getBean('springClass');
         </script>
-        <pre class="example">
-          <code>
-            function SpringClass(logger) {
-              this.logger = logger;
-            }
-            SpringClass.prototype.doLogging = function doLogging() {
-              this.logger.log('Logging from a Spring IOC container!');
-              // Some non-Singleton property setters can be defined by the instance
-              this.logger.setNamespace('SpringClass');
-            };
+        <pre class="example"><code>function SpringClass(logger) {
+  this.logger = logger;
+}
+SpringClass.prototype.doLogging = function doLogging() {
+  this.logger.log('Logging from a Spring IOC container!');
+  // Some non-Singleton property setters can be defined by the instance
+  this.logger.setNamespace('SpringClass');
+};
 
-            var notQuiteABean = {
-              springClass: {
-                proto: SpringClass,
-                constructorArgs: [
-                  {
-                    ref: 'exampleLogger'
-                  }
-                ]
-              },
-              exampleLogger: {
-                proto: ExampleLogger,
-                properties: [
-                  {
-                    name: 'id',
-                    value: 'springLog'
-                  }
-                ]
-              }
-            };
-            var springContext = new JsonApplicationContext(notQuiteABean);
+var notQuiteABean = {
+  springClass: {
+    proto: SpringClass,
+    constructorArgs: [
+      {
+        ref: 'exampleLogger'
+      }
+    ]
+  },
+  exampleLogger: {
+    proto: ExampleLogger,
+    properties: [
+      {
+        name: 'id',
+        value: 'springLog'
+      }
+    ]
+  }
+};
+var springContext = new JsonApplicationContext(notQuiteABean);
 
-            springClass = springContext.getBean('springClass');
-          </code>
-        </pre>
+springClass = springContext.getBean('springClass');</code></pre>
         <button onclick="springClass.doLogging()">Run Example</button>
         <pre class="log"><code id="springLog"></code></pre>
       </section>

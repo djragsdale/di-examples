@@ -4,6 +4,7 @@ function SymfonyContainer(containerBuilder, className, classProto) {
   this.classProto = classProto;
   this.instance = null;
   this.arguments = [];
+  this.methodCalls = [];
 }
 SymfonyContainer.prototype.addArgument = function addArgument(value) {
   var argument;
@@ -33,7 +34,7 @@ SymfonyContainer.prototype.addArgument = function addArgument(value) {
 };
 // TODO: Implement addMethodCall
 SymfonyContainer.prototype.addMethodCall = function addMethodCall(methodName, parameters) {
-  throw new Error('NotYetImplementedException');
+  this.methodCalls.push({ methodName: methodName, parameters: parameters });
 };
 SymfonyContainer.prototype.build = function build() {
   if (this.instance) {
@@ -44,4 +45,9 @@ SymfonyContainer.prototype.build = function build() {
   this.instance = new appliedClass;
   // in ES6
   // this.instance = new this.classProto(...this.arguments);
+  var self = this;
+
+  this.methodCalls.forEach(function (methodCall) {
+    self.instance[methodCall.methodName].apply(methodCall.parameters);
+  });
 };
