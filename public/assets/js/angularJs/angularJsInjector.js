@@ -13,3 +13,15 @@ function angularJsInjector(dependencies, fn) {
   fn.$inject = $inject;
   return fn;
 }
+
+function injectAngularJsContext(dependencies) {
+  var context = {
+    angularJsFunction: angularJsFunction,
+  };
+
+  Object.keys(context).forEach(function (key) {
+    context[key] = angularJsInjector(dependencies, context[key]);
+  });
+
+  return context;
+}

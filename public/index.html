@@ -61,11 +61,35 @@
       </div>
       <section id="closure">
         <h2>Closure</h2>
-        <p></p>
-        <script></script>
-        <pre class="example"><code></code></pre>
-        <button onclick="springClass.doLogging()">Run Example</button>
-        <pre class="log"><code id="springLog"></code></pre>
+        <p>Closure is a foundational JavaScript concept that gives one function access to the scope
+          of a another function. Simply put, having a function that returns a function gives you
+          the ability to explicitly design parameters to be passed in at application bootstrapping
+          separate from function invocation. This is probably the simplest way to add testability
+          to legacy JavaScript code.</p>
+        <script>
+          function doClosureStuffInjector(logger) {
+            var logger = logger;
+
+            return function doClosureStuff() {
+              logger.log('Function injected via closure!');
+            };
+          }
+
+          // App Bootstrapping
+          var doClosureStuff = doClosureStuffInjector(new ExampleLogger('closureInjector', 'closureLog'));
+        </script>
+        <pre class="example"><code>function doClosureStuffInjector(logger) {
+  var logger = logger;
+
+  return function doClosureStuff() {
+    logger.log('Function injected via closure!');
+  };
+}
+
+// App Bootstrapping
+var doClosureStuff = doClosureStuffInjector(new ExampleLogger('closureInjector', 'closureLog'));</code></pre>
+        <button onclick="doClosureStuff()">Run Example</button>
+        <pre class="log"><code id="closureLog"></code></pre>
       </section>
       <section id="setter-prototype">
         <h2>Setter Prototype</h2>
@@ -78,10 +102,29 @@
       <section id="angularjs">
         <h2>AngularJS</h2>
         <p></p>
-        <script></script>
-        <pre class="example"><code></code></pre>
-        <button onclick="springClass.doLogging()">Run Example</button>
-        <pre class="log"><code id="springLog"></code></pre>
+        <script>
+          angularJsFunction.$inject = ['logger'];
+          function angularJsFunction(logger, param0) {
+            var logger = new logger('angularJsFunction', 'angularJsLog');
+            logger.log('injected using string abstractions!');
+          }
+
+          var angularJsContext = injectAngularJsContext({
+            logger: ExampleLogger,
+          });
+        </script>
+        <pre class="example"><code>angularJsFunction.$inject = ['Logger'];
+function angularJsFunction(Logger, param0) {
+  // Inject the prototype/class if you want
+  var logger = new Logger('angularJsFunction');
+  logger.log('injected using string abstractions!');
+}
+
+var angularJsContext = injectAngularJsContext({
+  Logger: ExampleLogger
+});</code></pre>
+        <button onclick="angularJsContext.angularJsFunction()">Run Example</button>
+        <pre class="log"><code id="angularJsLog"></code></pre>
       </section>
       <section id="symfony">
         <h2>Symfony</h2>
