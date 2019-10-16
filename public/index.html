@@ -94,10 +94,54 @@ var doClosureStuff = doClosureStuffInjector(new ExampleLogger('closureInjector',
       <section id="setter-prototype">
         <h2>Setter Prototype</h2>
         <p></p>
-        <script></script>
-        <pre class="example"><code></code></pre>
-        <button onclick="springClass.doLogging()">Run Example</button>
-        <pre class="log"><code id="springLog"></code></pre>
+        <script>
+          function SetterPrototypeComponent(name, loggerId) {
+            this.name = name;
+            this.loggerId = loggerId;
+          }
+          SetterPrototypeComponent.prototype.getDependencies = function getDependencies() {
+            return ['Logger'];
+          };
+          SetterPrototypeComponent.prototype.setLogger = function setLogger(logger) {
+            this.logger = logger;
+            this.logger.setNamespace(this.name);
+            this.logger.setId(this.loggerId);
+          };
+          SetterPrototypeComponent.prototype.doLogging = function doLogging() {
+            this.logger.log('SetterPrototypeComponent!');
+          };
+
+          var injectDependencies = createInjector({
+            Logger: ExampleLogger
+          });
+
+          var setterPrototypeComponent = new SetterPrototypeComponent('mySetterPrototype', 'setterPrototypeLog');
+          injectDependencies(setterPrototypeComponent);
+        </script>
+        <pre class="example"><code>function SetterPrototypeComponent(name, loggerId) {
+  this.name = name;
+  this.loggerId = loggerId;
+}
+SetterPrototypeComponent.prototype.getDependencies = function getDependencies() {
+  return ['Logger'];
+};
+SetterPrototypeComponent.prototype.setLogger = function setLogger(logger) {
+  this.logger = logger;
+  this.logger.setNamespace(this.name);
+  this.logger.setId(this.loggerId);
+};
+SetterPrototypeComponent.prototype.doLogging = function doLogging() {
+  this.logger.log('SetterPrototypeComponent!');
+};
+
+var injectDependencies = createInjector({
+  Logger: ExampleLogger
+});
+
+var setterPrototypeComponent = new SetterPrototypeComponent('mySetterPrototype', 'setterPrototypeLog');
+injectDependencies(setterPrototypeComponent);</code></pre>
+        <button onclick="setterPrototypeComponent.doLogging()">Run Example</button>
+        <pre class="log"><code id="setterPrototypeLog"></code></pre>
       </section>
       <section id="angularjs">
         <h2>AngularJS</h2>
