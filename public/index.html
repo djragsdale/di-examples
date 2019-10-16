@@ -159,15 +159,16 @@ injectDependencies(setterPrototypeComponent);</code></pre>
             logger: new ExampleLogger(),
           });
         </script>
-        <pre class="example"><code>angularJsFunction.$inject = ['Logger'];
-function angularJsFunction(Logger, param0) {
-  // Inject the prototype/class if you want
-  var logger = new Logger('angularJsFunction');
+        <pre class="example"><code>angularJsFunction.$inject = ['logger'];
+function angularJsFunction(logger, param0) {
+  var logger = logger;
+  logger.setNamespace('angularJsFunction');
+  logger.setId('angularJsLog');
   logger.log('injected using string abstractions!');
 }
 
 var angularJsContext = injectAngularJsContext({
-  Logger: ExampleLogger
+  logger: new ExampleLogger(),
 });</code></pre>
         <button onclick="angularJsContext.angularJsFunction()">Run Example</button>
         <pre class="log"><code id="angularJsLog"></code></pre>
