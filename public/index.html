@@ -149,12 +149,14 @@ injectDependencies(setterPrototypeComponent);</code></pre>
         <script>
           angularJsFunction.$inject = ['logger'];
           function angularJsFunction(logger, param0) {
-            var logger = new logger('angularJsFunction', 'angularJsLog');
+            var logger = logger;
+            logger.setNamespace('angularJsFunction');
+            logger.setId('angularJsLog');
             logger.log('injected using string abstractions!');
           }
 
           var angularJsContext = injectAngularJsContext({
-            logger: ExampleLogger,
+            logger: new ExampleLogger(),
           });
         </script>
         <pre class="example"><code>angularJsFunction.$inject = ['Logger'];
