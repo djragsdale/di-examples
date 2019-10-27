@@ -9,6 +9,6 @@ export default () => (
   <Fragment>
     David Ragsdale is a full-stack web developer focusing on Enterprise platforms and complex systems.
     <br />
-    Check out my <Styled.a href="https://github.com/djragsdale">Github</Styled.a> to see my work.
+    Check out my <Styled.a href="https://github.com/djragsdale">GitHub</Styled.a> to see my work.
   </Fragment>
 )

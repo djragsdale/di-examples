@@ -14,7 +14,7 @@ module.exports = {
     description: `Dependency Injection and Inversion of Control in client JavaScript`,
     social: [
       {
-        name: `Github`,
+        name: `GitHub`,
         url: `https://github.com/djragsdale/di-examples`,
       },
     ],
