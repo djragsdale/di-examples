@@ -8,7 +8,7 @@ module.exports = {
   ],
   // Customize your site metadata:
   siteMetadata: {
-    siteUrl: `https://www.example.com`,
+    siteUrl: `https://practical-easley-59a038.netlify.com/`,
     title: `David Ragsdale dev`,
     author: `David Ragsdale`,
     description: `Dependency Injection and Inversion of Control in client JavaScript`,
