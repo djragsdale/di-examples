@@ -3,11 +3,21 @@
   "version": "0.1.0",
   "description": "Examples of Dependency Injection in ES5 JS code",
   "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/djragsdale/di-examples"
+  },
   "scripts": {
-    "serve": "npx http-server public",
-    "start": "node bin/my-program.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "develop": "gatsby develop",
+    "start": "gatsby develop",
+    "build": "gatsby build"
   },
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "gatsby": "^2.17.4",
+    "gatsby-theme-blog": "^1.1.9",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0"
+  }
 }
