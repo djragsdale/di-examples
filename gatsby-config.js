@@ -7,7 +7,7 @@ module.exports = {
   ],
   // Customize your site metadata:
   siteMetadata: {
-    title: `Testable Vanilla JavaScript`,
+    title: `David Ragsdale dev`,
     author: `David Ragsdale`,
     description: `Dependency Injection and Inversion of Control in client JavaScript`,
     social: [
