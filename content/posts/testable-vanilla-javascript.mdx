@@ -2,10 +2,11 @@
 title: Testable Vanilla JavaScript
 date: 2019-10-26
 ---
+import RunnableExample from '../../src/components/runnable-example.js';
 
 Every software developer has been in this place: they get asked to add a one-off feature that seems harmless, it balloons into a series of interrelated features, and, seeing it after numerous evolutions, wishes they could have written it differently. "If only I had been told _why_ this feature was wanted, I would have used a framework." "If I would have known how important this feature was for my client I would have made it more testable." This is the struggle of iterating, of allowing an organic process to create an end product instead of a 100% thought-through design that waterfalls into a desired goal.
 
-When a small feature is being developed, one of the first things to get ignored are **tests**. Developers from different backgrounds may have occasion to write JavaScript, but wish to use the same testable structures they are familiar with. While JavaScript has its own conventions regarding code style, there are few best practices for using Dependency Injection (DI) or Inversion of Control (IOC) containers outside of a front end framework. However, due to JavaScript's flexible nature, most DI or IOC patterns from other languages can be adapted to JS. If not needing a complex and flexible pattern, vanilla JS can utilize simple patterns to make code testable. A notoriously hard thing to test are global values. Code manipulating the DOM or dealing with external libraries loaded using script tags often introduce global values. If you are maintaining legacy code or retrofitting code so it will last longer, you probably want it to be testable. The good news is that JavaScript code can easily be written or refactored so it is testable without requiring an advance framework. <a href="https://codepen.io/collection/XQqzdP/">CodePen examples</a> for all of the structures described can be found below. For the purposes of simplicity, all examples use the same dependency:
+When a small feature is being developed, one of the first things to get ignored are **tests**. Developers from different backgrounds may have occasion to write JavaScript, but wish to use the same testable structures they are familiar with. While JavaScript has its own conventions regarding code style, there are few best practices for using Dependency Injection (DI) or Inversion of Control (IOC) containers outside of a front end framework. However, due to JavaScript's flexible nature, most DI or IOC patterns from other languages can be adapted to JS. If not needing a complex and flexible pattern, vanilla JS can utilize simple patterns to make code testable. A notoriously hard thing to test are global values. Code manipulating the DOM or dealing with external libraries loaded using script tags often introduce global values. If you are maintaining legacy code or retrofitting code so it will last longer, you probably want it to be testable. The good news is that JavaScript code can easily be written or refactored so it is testable without requiring an advance framework. [CodePen examples](https://codepen.io/collection/XQqzdP/) for all of the structures described can be found below. For the purposes of simplicity, all examples use the same dependency:
 
 ```javascript
 /**
@@ -65,10 +66,22 @@ ExampleLogger.prototype.log = function log(message) {
 
 Closure is a foundational JavaScript concept that gives one function access to the scope of another function. Having a function that returns a function gives you the ability to explicitly design parameters to be passed in at application bootstrapping separate from function invocation. Simply put, you can pass in the dependencies once and call the function however you want later. This keeps you from larger refactors which require creating prototypes or restructuring dependencies. If the code base is already using functional programming concepts, this also maintains a common style. This is probably the simplest way to add testability to legacy JavaScript code.
 
+<RunnableExample clickFn={'doClosureStuff()'} exampleId={'closeureLog'} code={`
+function doClosureStuffInjector() {
+  return function doClosureStuff() {
+    logger.log('Function injected via closure!');
+  };
+}
+// App Bootstrapping
+var doClosureStuff = doClosureStuffInjector(new ExampleLogger('closureInjector', 'closureLog'));
+`.trim()}></RunnableExample>
+
+<!--
 <iframe height="265" style="width: 100%;" scrolling="no" title="DI &amp; IOC - Closure" src="https://codepen.io/djragsdale/embed/KKKqzrN?height=265&theme-id=0&default-tab=result" frameborder="no" allowtransparency="true" allowfullscreen="true">
   See the Pen <a href='https://codepen.io/djragsdale/pen/KKKqzrN'>DI &amp; IOC - Closure</a> by David
   (<a href='https://codepen.io/djragsdale'>@djragsdale</a>) on <a href='https://codepen.io'>CodePen</a>.
 </iframe>
+-->
 
 ## Setter-Prototype
 
