@@ -66,8 +66,8 @@ ExampleLogger.prototype.log = function log(message) {
 
 Closure is a foundational JavaScript concept that gives one function access to the scope of another function. Having a function that returns a function gives you the ability to explicitly design parameters to be passed in at application bootstrapping separate from function invocation. Simply put, you can pass in the dependencies once and call the function however you want later. This keeps you from larger refactors which require creating prototypes or restructuring dependencies. If the code base is already using functional programming concepts, this also maintains a common style. This is probably the simplest way to add testability to legacy JavaScript code.
 
-<RunnableExample clickFn={'doClosureStuff()'} exampleId={'closeureLog'} code={`
-function doClosureStuffInjector() {
+<RunnableExample clickFn={'doClosureStuff()'} exampleId={'closureLog'} code={`
+function doClosureStuffInjector(logger) {
   return function doClosureStuff() {
     logger.log('Function injected via closure!');
   };

@@ -1,12 +1,3 @@
-import React, { Fragment } from 'react';
-import { Styled } from 'theme-ui';
-import useScriptContent from './hooks/useScriptContent';
-
-/**
- * Change the content to add your own bio
- */
-
-const globalScripts = `
 /**
  * Logger dependency
  */
@@ -62,7 +53,7 @@ ExampleLogger.prototype.log = function log(message) {
   if (!element) {
     throw new Error('ExampleLogger cannot find element with id "' + this.id + '"');
   }
-  element.innerText = this.lines.join('\\n');
+  element.innerText = this.lines.join('\n');
 };
 
 
@@ -78,22 +69,3 @@ function applyAndNew(constructor, args) {
   }
   return partial;
 }
-`;
-
-export default ({
-  clickFn = `function () { console.log('Please pass clickHandler to RunnableExample') }`,
-  code = '',
-  exampleId = 'myExample',
-}) => {
-  // TODO: Put this into an iframe or something?
-  useScriptContent(globalScripts.trim());
-  useScriptContent(code.trim());
-
-  return (<Fragment>
-    <div dangerouslySetInnerHTML={{ __html: `
-      <pre class="language-javascript prism-code language-javascript css-w0h414"><code>${code}</code></pre>
-      <button onclick="${clickFn}">Run</button>
-      <pre id="${exampleId}" class="log prism-code css-w0h414">&nbsp;</pre>
-    ` }}></div>
-  </Fragment>);
-};
