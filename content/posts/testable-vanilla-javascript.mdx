@@ -7,7 +7,7 @@ Every software developer has been in this place: they get asked to add a one-off
 
 When a small feature is being developed, one of the first things to get ignored are **tests**. Developers from different backgrounds may have occasion to write JavaScript, but wish to use the same testable structures they are familiar with. While JavaScript has its own conventions regarding code style, there are few best practices for using Dependency Injection (DI) or Inversion of Control (IOC) containers outside of a front end framework. However, due to JavaScript's flexible nature, most DI or IOC patterns from other languages can be adapted to JS. If not needing a complex and flexible pattern, vanilla JS can utilize simple patterns to make code testable. A notoriously hard thing to test are global values. Code manipulating the DOM or dealing with external libraries loaded using script tags often introduce global values. If you are maintaining legacy code or retrofitting code so it will last longer, you probably want it to be testable. The good news is that JavaScript code can easily be written or refactored so it is testable without requiring an advance framework. <a href="https://codepen.io/collection/XQqzdP/">CodePen examples</a> for all of the structures described can be found below. For the purposes of simplicity, all examples use the same dependency:
 
-```
+```javascript
 /**
  * Logger dependency
  */
