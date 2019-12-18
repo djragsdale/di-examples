@@ -19,6 +19,8 @@
     "gatsby-plugin-sitemap": "^2.2.19",
     "gatsby-theme-blog": "^1.1.9",
     "react": "^16.11.0",
-    "react-dom": "^16.11.0"
+    "react-dom": "^16.11.0",
+    "react-frame-component": "^4.1.1",
+    "uuid": "^3.3.3"
   }
 }

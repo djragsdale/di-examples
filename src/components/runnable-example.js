@@ -1,5 +1,8 @@
 import React, { Fragment } from 'react';
+import Frame from 'react-frame-component';
 import { Styled } from 'theme-ui';
+import uuid from 'uuid/v4';
+import useIframeScriptContent from './hooks/useIframeScriptContent';
 import useScriptContent from './hooks/useScriptContent';
 
 /**
@@ -81,15 +84,41 @@ function applyAndNew(constructor, args) {
 `;
 
 export default ({
-  clickFn = `function () { console.log('Please pass clickHandler to RunnableExample') }`,
+  clickFn = `function () { console.log('Please pass clickFn to RunnableExample') }`,
   code = '',
   exampleId = 'myExample',
 }) => {
+  const key = uuid();
+
   // TODO: Put this into an iframe or something?
   useScriptContent(globalScripts.trim());
   useScriptContent(code.trim());
 
+  useIframeScriptContent(globalScripts.trim(), key);
+  useIframeScriptContent(code.trim(), key);
+
+  const wrapperStyles = {
+    padding: 32,
+    backgroundColor: '#011627',
+    color: 'white',
+    borderRadius: 10,
+  };
+
+  const iframeStyles = {
+    display: 'block',
+    backgroundColor: 'purple',
+  };
+
+  const iframeHead = (<style dangerouslySetInnerHTML={{ __html: `body { margin: 0; }` }}></style>);
+
   return (<Fragment>
+    <div>
+      <Frame id={key} head={iframeHead} style={iframeStyles}><div style={wrapperStyles} dangerouslySetInnerHTML={{ __html: `
+        <pre class="language-javascript prism-code language-javascript css-w0h414"><code>${code}</code></pre>
+        <button onclick="${clickFn}">Run</button>
+        <pre id="${exampleId}" class="log prism-code css-w0h414">&nbsp;</pre>
+      ` }}></div></Frame>
+    </div>
     <div dangerouslySetInnerHTML={{ __html: `
       <pre class="language-javascript prism-code language-javascript css-w0h414"><code>${code}</code></pre>
       <button onclick="${clickFn}">Run</button>
