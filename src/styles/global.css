@@ -1,3 +1,14 @@
 pre.language-javascript {
   max-height: 250px;
 }
+
+.example-button {
+  margin-bottom: 14px;
+  padding: 8px;
+  background: black;
+  color: white;
+  min-width: 100px;
+  font-size: 85%;
+  border-radius: 10px;
+  cursor: pointer;
+}
