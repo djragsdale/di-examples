@@ -337,6 +337,7 @@ export default ({
     pre {
       overflow-x: auto;
       background-color: #011627;
+      border-radius: 10px;
     }
 
     pre.example {
@@ -348,7 +349,6 @@ export default ({
     pre.log {
       margin-bottom: 14px;
       padding: 32px;
-      border-radius: 10px;
       line-height: 1.75;
     }
 
