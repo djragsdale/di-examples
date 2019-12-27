@@ -118,10 +118,17 @@ injectDependencies(setterPrototypeComponent);
 
 The AngularJS injection system is one of the simplest ways for a prototype or function to define what dependencies it needs. This abstraction can then be utilized automatically by an external injector. Since JavaScript functions are also objects, they can have properties defined on them. If you create a property that is an array of dependency names as strings corresponding with the constructor arguments used, you now have an abstraction of the string name defining the dependency. An external bootstrapper or injector can read this array and pass in the proper arguments as needed when the constructor is called.
 
-<iframe height="265" style="width: 100%;" scrolling="no" title="DI &amp; IOC - AngularJS" src="https://codepen.io/djragsdale/embed/yLLXOGM?height=265&theme-id=0&default-tab=result" frameborder="no" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href='https://codepen.io/djragsdale/pen/yLLXOGM'>DI &amp; IOC - AngularJS</a> by David
-  (<a href='https://codepen.io/djragsdale'>@djragsdale</a>) on <a href='https://codepen.io'>CodePen</a>.
-</iframe>
+<RunnableExample title={'AngularJS iframe'} clickFn={'angularJsContext.angularJsFunction()'} exampleId={'angularJsLog'} code={`
+angularJsFunction.$inject = ['logger'];
+function angularJsFunction(logger, param0) {
+  var logger = logger;
+  logger.log('injected using string abstractions!');
+}
+// App Bootstrapping
+var angularJsContext = injectAngularJsContext({
+  logger: new ExampleLogger('angularJsFunction', 'angularJsLog'),
+});
+`.trim()}></RunnableExample>
 
 ## Symfony Container Builders
 
