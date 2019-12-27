@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import Prism from 'prismjs';
 import Frame from 'react-frame-component';
 // import { Styled } from 'theme-ui';
 import uuid from 'uuid/v4';
@@ -334,16 +335,21 @@ export default ({
     }
 
     pre {
+      overflow-x: auto;
+      background-color: #011627;
+    }
+
+    pre.example {
+      max-height: 250px;
+      padding: 28px;
+      font-size: 85%;
+    }
+
+    pre.log {
       margin-bottom: 14px;
       padding: 32px;
       border-radius: 10px;
-      background-color: #011627;
-      overflow-x: auto;
       line-height: 1.75;
-    }
-
-    pre.language-javascript {
-      max-height: 250px;
     }
 
     .example-button {
@@ -358,14 +364,24 @@ export default ({
     }
   `;
 
-  const iframeHead = (<style jsx="true">{insideIframeStyles}</style>);
+  const iframeHead = (<Fragment>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/themes/prism-tomorrow.min.css"
+    />
+    <style jsx="true">{insideIframeStyles}</style>
+  </Fragment>);
+
+  // const formattedCodeMarkup = code
+    // .split()
+  const formattedCodeMarkup = Prism.highlight(code, Prism.languages.javascript, 'javascript');
 
   const wrapClickFn = (fnString) => `delegatedClickHandler(function () { return ${fnString} })`
 
   return (<Fragment>
     <div>
       <Frame id={iframeId} head={iframeHead} style={iframeStyles} allowFullScreen={false}><div style={wrapperStyles} dangerouslySetInnerHTML={{ __html: `
-        <pre class="language-javascript prism-code language-javascript css-w0h414"><code>${code}</code></pre>
+        <pre class="example"><code class="language-javascript">${formattedCodeMarkup}</code></pre>
         <button class="example-button" onclick="${wrapClickFn(clickFn)}">Run</button>
         <pre id="${exampleId}" class="log prism-code css-w0h414">&nbsp;</pre>
       ` }}></div></Frame>
