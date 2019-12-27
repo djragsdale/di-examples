@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 
-export default function useScriptContent(content, iframeId) {
-  useEffect(function effectHandler() {
+export default function useIframeScriptContent(content, iframeId) {
+  useLayoutEffect(function effectHandler() {
     const script = document.createElement('script');
 
     script.async = true;
@@ -18,5 +18,5 @@ export default function useScriptContent(content, iframeId) {
     return () => {
       iframeDocument.body.removeChild(script);
     };
-  }, [content]);
+  }, [content, iframeId]);
 };
