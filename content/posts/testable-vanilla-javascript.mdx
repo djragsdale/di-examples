@@ -163,10 +163,37 @@ var symfonyClass = containerBuilder.get('symfonyClass');
 
 Using beans is a common practice in Java programming. Developers with a Spring background might prefer this type of central configuration of dependencies. Many developers prefer configuration to be in static files like JSON or XML, and this format resembling Beans gets very close to that. If a bundler is being used, the proto property of each dependency could be replaced with a string of the path to the file, in which case the configuration could be truly static. This example did not take advantage of a bundler in order to show how this pattern could be used in legacy code.
 
-<iframe height="265" style="width: 100%;" scrolling="no" title="DI &amp; IOC - Spring" src="https://codepen.io/djragsdale/embed/JjjJXwB?height=265&theme-id=0&default-tab=result" frameborder="no" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href='https://codepen.io/djragsdale/pen/JjjJXwB'>DI &amp; IOC - Spring</a> by David
-  (<a href='https://codepen.io/djragsdale'>@djragsdale</a>) on <a href='https://codepen.io'>CodePen</a>.
-</iframe>
+<RunnableExample title={'Closure iframe'} clickFn={'springClass.doLogging()'} exampleId={'springLog'} code={`
+function SpringClass(logger) {
+  this.logger = logger;
+  // Some non-Singleton property setters can be defined by the instance
+  this.logger.setNamespace('SpringClass');
+}
+SpringClass.prototype.doLogging = function doLogging() {
+  this.logger.log('Logging from a Spring IOC container!');
+};
+var notQuiteABean = {
+  springClass: {
+    proto: SpringClass,
+    constructorArgs: [
+      {
+        ref: 'exampleLogger'
+      }
+    ]
+  },
+  exampleLogger: {
+    proto: ExampleLogger,
+    properties: [
+      {
+        name: 'id',
+        value: 'springLog'
+      }
+    ]
+  }
+};
+var springContext = new JsonApplicationContext(notQuiteABean);
+springClass = springContext.getBean('springClass');
+`.trim()}></RunnableExample>
 
 ## Conclusion
 
