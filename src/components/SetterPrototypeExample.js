@@ -9,7 +9,7 @@ export default () => {
   return (
     <RunnableExample
       title="Setter-Prototype iframe"
-      clickFn="setterPrototypeComponent.doLogging()()"
+      clickFn="setterPrototypeComponent.doLogging()"
       code={scriptText}
       exampleId="setterPrototypeLog"
     ></RunnableExample>
