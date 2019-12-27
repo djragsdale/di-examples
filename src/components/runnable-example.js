@@ -101,6 +101,31 @@ function delegatedClickHandler(clickFn) {
   
   triggerResize();
 }
+
+
+// Accepts dependencies object
+function createInjector(dependencies) {
+  // Dependencies needing dependencies might need to be done out of order
+
+  return function setterPrototypeInjector(instance) {
+    var requestedDependencies = instance.getDependencies();
+    requestedDependencies.forEach(function (dependencyName) {
+      if (!dependencies[dependencyName]) {
+        throw new Error('Dependency "' + dependencyName + '" is not a valid dependency.');
+      }
+
+      if (!instance['set' + dependencyName]) {
+        throw new Error('prototype missing dependency setter "set' + dependencyName + '"');
+      }
+
+      // This would allow the method to instantiate the class
+      // instance['set' + dependencyName](dependencies[dependencyName]);
+
+      // Ideally the injector should instantiate the class, like this
+      instance['set' + dependencyName](new dependencies[dependencyName]());
+    });
+  }
+}
 `;
 
 export default ({
@@ -163,23 +188,15 @@ export default ({
 
   const iframeHead = (<style jsx="true">{insideIframeStyles}</style>);
 
-  const wrapClickFn = (fnString, iframeId) => `delegatedClickHandler(function () { return ${fnString} }, '${iframeId}')`
+  const wrapClickFn = (fnString) => `delegatedClickHandler(function () { return ${fnString} })`
 
-  // TODO: Trigger a resize when the button is clicked
-
-  // What if the button does a postmessage instead?
   return (<Fragment>
     <div>
       <Frame id={key} head={iframeHead} style={iframeStyles} allowFullScreen={false}><div style={wrapperStyles} dangerouslySetInnerHTML={{ __html: `
         <pre class="language-javascript prism-code language-javascript css-w0h414"><code>${code}</code></pre>
-        <button class="example-button" onclick="${wrapClickFn(clickFn, key)}">Run</button>
+        <button class="example-button" onclick="${wrapClickFn(clickFn)}">Run</button>
         <pre id="${exampleId}" class="log prism-code css-w0h414">&nbsp;</pre>
       ` }}></div></Frame>
     </div>
-    {/* <div dangerouslySetInnerHTML={{ __html: `
-      <pre class="language-javascript prism-code language-javascript css-w0h414"><code>${code}</code></pre>
-      <button class="example-button" onclick="${clickFn}">Run</button>
-      <pre id="${exampleId}" class="log prism-code css-w0h414">&nbsp;</pre>
-    ` }}></div> */}
   </Fragment>);
 };

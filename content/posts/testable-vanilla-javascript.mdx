@@ -87,10 +87,32 @@ var doClosureStuff = doClosureStuffInjector(new ExampleLogger('closureInjector',
 
 Prototypes are central to the way JavaScript handles object instances. While most dependency injection focuses on adding arguments to a class constructor, usually even taking responsibility for instantiating the classes given to the IOC container, setter-prototype injection utilizes a method on an object instance to set the dependency after being instantiated. This allows for constructor arguments to be set separately from dependencies, offering a clear view of what is injecting dependencies vs. what is passing dynamic values.
 
-<iframe height="265" style="width: 100%;" scrolling="no" title="DI &amp; IOC - Setter-prototype" src="https://codepen.io/djragsdale/embed/bGGRpOV?height=265&theme-id=0&default-tab=result" frameborder="no" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href='https://codepen.io/djragsdale/pen/bGGRpOV'>DI &amp; IOC - Setter-prototype</a> by David
-  (<a href='https://codepen.io/djragsdale'>@djragsdale</a>) on <a href='https://codepen.io'>CodePen</a>.
-</iframe>
+<RunnableExample title={'Setter-Prototype iframe'} clickFn={'setterPrototypeComponent.doLogging()'} exampleId={'setterPrototypeLog'} code={`
+function doLogging() {
+  console.log('Did SP log');
+}
+function SetterPrototypeComponent(name, loggerId) {
+  this.name = name;
+  this.loggerId = loggerId;
+}
+SetterPrototypeComponent.prototype.getDependencies = function getDependencies() {
+   return ['Logger'];
+};
+SetterPrototypeComponent.prototype.setLogger = function setLogger(logger) {
+  this.logger = logger;
+  this.logger.setNamespace(this.name);
+  this.logger.setId(this.loggerId);
+};
+SetterPrototypeComponent.prototype.doLogging = function doLogging() {
+  this.logger.log('SetterPrototypeComponent!');
+};
+// App Bootstrapping
+var injectDependencies = createInjector({
+  Logger: ExampleLogger
+});
+var setterPrototypeComponent = new SetterPrototypeComponent('mySetterPrototype', 'setterPrototypeLog');
+injectDependencies(setterPrototypeComponent);
+`.trim()}></RunnableExample>
 
 ## AngularJS Injectors
 
