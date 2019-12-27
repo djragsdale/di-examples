@@ -308,15 +308,12 @@ export default ({
   code = '',
   exampleId = 'myExample',
 }) => {
-  const key = uuid();
+  const iframeId = uuid();
 
-  // useScriptContent(getGlobalScripts(key).trim());
-  // useScriptContent(code.trim());
+  useIframeScriptContent(getGlobalScripts(iframeId).trim(), iframeId);
+  useIframeScriptContent(code.trim(), iframeId);
 
-  useIframeScriptContent(getGlobalScripts(key).trim(), key);
-  useIframeScriptContent(code.trim(), key);
-
-  useIframeResizer(key);
+  useIframeResizer(iframeId);
 
   const wrapperStyles = {
     color: 'white',
@@ -367,7 +364,7 @@ export default ({
 
   return (<Fragment>
     <div>
-      <Frame id={key} head={iframeHead} style={iframeStyles} allowFullScreen={false}><div style={wrapperStyles} dangerouslySetInnerHTML={{ __html: `
+      <Frame id={iframeId} head={iframeHead} style={iframeStyles} allowFullScreen={false}><div style={wrapperStyles} dangerouslySetInnerHTML={{ __html: `
         <pre class="language-javascript prism-code language-javascript css-w0h414"><code>${code}</code></pre>
         <button class="example-button" onclick="${wrapClickFn(clickFn)}">Run</button>
         <pre id="${exampleId}" class="log prism-code css-w0h414">&nbsp;</pre>
