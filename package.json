@@ -15,7 +15,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "gatsby": "^2.17.4",
+    "gatsby": "^4.25.7",
     "gatsby-plugin-sitemap": "^2.2.19",
     "gatsby-theme-blog": "^1.1.9",
     "prismjs": "^1.17.1",
